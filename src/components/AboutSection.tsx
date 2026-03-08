@@ -28,7 +28,7 @@ export function AboutSection() {
   const [hoveredUseCase, setHoveredUseCase] = useState<number | null>(null);
 
   return (
-    <div className="space-y-16">
+    <div className="space-y-12">
       {/* Hero with animated mesh background */}
       <motion.div {...fadeUp(0)} className="text-center max-w-3xl mx-auto relative">
         {/* Animated gradient mesh behind hero */}

@@ -147,6 +147,9 @@ export function AllocationResults({
           <p className="text-[11px] text-muted-foreground mt-1">
             Click any state to see how its allocation is distributed across districts based on need
           </p>
+          <span className="inline-block mt-1.5 px-2 py-0.5 rounded-full text-[9px] font-mono bg-accent/10 text-accent border border-accent/20">
+            ⚠ Simulated data for demonstration
+          </span>
         </div>
         <div className="space-y-2">
           {results.map((result) => (
@@ -163,77 +166,67 @@ export function AllocationResults({
         </div>
       </motion.div>
 
-      {/* Marginal contributions detail */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6, duration: 0.5 }}
-        className="glass-card rounded-2xl p-6"
-      >
-        <h3 className="font-display font-semibold text-foreground mb-1 flex items-center gap-2">
-          <span className="text-gradient-gold">φ</span> Marginal Contributions Breakdown
-          <GlossaryTooltip id="marginal-contribution" />
-        </h3>
-        <p className="text-[11px] text-muted-foreground mb-4">
-          How much each state adds to every possible coalition it could join
-        </p>
-        <div className="space-y-6">
-          {results.map((result) => (
-            <div key={result.playerId}>
-              <div className="flex items-center gap-2 mb-2">
-                <div
-                  className="w-2.5 h-2.5 rounded-full"
-                  style={{ backgroundColor: result.color }}
-                />
-                <span className="font-display font-medium text-sm text-foreground">
-                  {result.playerName}
-                </span>
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-                {result.marginalContributions.map((mc, j) => (
-                  <div
-                    key={j}
-                    className="bg-muted/40 rounded-xl px-3 py-2.5 text-center border border-border/20"
-                  >
-                    <div className="font-mono text-[10px] text-muted-foreground mb-1">
-                      {mc.coalition.length === 0
-                        ? "∅ (alone)"
-                        : `+ {${mc.coalition.join(", ")}}`}
-                    </div>
-                    <div
-                      className="font-mono text-sm font-semibold"
-                      style={{ color: mc.marginal > 0 ? result.color : "hsl(var(--muted-foreground))" }}
-                    >
-                      {mc.marginal > 0 ? "+" : ""}
-                      {formatValue(mc.marginal, resourceUnit)}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* Formula explanation */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.8 }}
-        className="glass-card rounded-2xl p-6 border-primary/15"
-      >
-        <h4 className="font-display font-semibold text-foreground mb-2 flex items-center gap-2">
-          The Math Behind It
-          <GlossaryTooltip id="fairness-axioms" />
-        </h4>
-        <div className="font-mono text-sm text-muted-foreground leading-relaxed space-y-1">
-          <p className="text-foreground">φᵢ(v) = Σ [|S|!(n-|S|-1)! / n!] × [v(S∪&#123;i&#125;) - v(S)]</p>
-          <p className="text-xs mt-2">
-            For each player i, we sum over all coalitions S not containing i.
-            The weight ensures every ordering of players is equally likely.
+      {/* Marginal contributions detail - only for multi-state */}
+      {!isSingleState && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+          className="glass-card rounded-2xl p-6"
+        >
+          <h3 className="font-display font-semibold text-foreground mb-1 flex items-center gap-2">
+            <span className="text-gradient-gold">φ</span> Marginal Contributions Breakdown
+            <GlossaryTooltip id="marginal-contribution" />
+          </h3>
+          <p className="text-[11px] text-muted-foreground mb-4">
+            How much each state adds to every possible coalition it could join
           </p>
-        </div>
-      </motion.div>
+          <div className="space-y-6">
+            {results.map((result) => (
+              <div key={result.playerId}>
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: result.color }} />
+                  <span className="font-display font-medium text-sm text-foreground">{result.playerName}</span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                  {result.marginalContributions.map((mc, j) => (
+                    <div key={j} className="bg-muted/40 rounded-xl px-3 py-2.5 text-center border border-border/20">
+                      <div className="font-mono text-[10px] text-muted-foreground mb-1">
+                        {mc.coalition.length === 0 ? "∅ (alone)" : `+ {${mc.coalition.join(", ")}}`}
+                      </div>
+                      <div className="font-mono text-sm font-semibold" style={{ color: mc.marginal > 0 ? result.color : "hsl(var(--muted-foreground))" }}>
+                        {mc.marginal > 0 ? "+" : ""}{formatValue(mc.marginal, resourceUnit)}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      )}
+
+      {/* Formula explanation - only for multi-state */}
+      {!isSingleState && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+          className="glass-card rounded-2xl p-6 border-primary/15"
+        >
+          <h4 className="font-display font-semibold text-foreground mb-2 flex items-center gap-2">
+            The Math Behind It
+            <GlossaryTooltip id="fairness-axioms" />
+          </h4>
+          <div className="font-mono text-sm text-muted-foreground leading-relaxed space-y-1">
+            <p className="text-foreground">φᵢ(v) = Σ [|S|!(n-|S|-1)! / n!] × [v(S∪&#123;i&#125;) - v(S)]</p>
+            <p className="text-xs mt-2">
+              For each player i, we sum over all coalitions S not containing i.
+              The weight ensures every ordering of players is equally likely.
+            </p>
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }
