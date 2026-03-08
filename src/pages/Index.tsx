@@ -86,14 +86,8 @@ const Index = () => {
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
           >
-            <div className="w-9 h-9 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary/15 transition-colors relative overflow-hidden">
-              {/* Logo shimmer */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent -skew-x-12"
-                animate={{ x: ["-150%", "150%"] }}
-                transition={{ duration: 2, repeat: Infinity, repeatDelay: 5, ease: "easeInOut" }}
-              />
-              <Scale className="w-4.5 h-4.5 text-primary relative z-10" />
+            <div className="w-9 h-9 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary/15 transition-colors">
+              <Scale className="w-4.5 h-4.5 text-primary" />
             </div>
             <div className="text-center">
               <span className="font-display font-bold text-foreground text-lg tracking-tight block leading-none">
