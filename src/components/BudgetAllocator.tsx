@@ -3,17 +3,26 @@ import { motion } from "framer-motion";
 import { IndiaMap } from "@/components/IndiaMap";
 import { AllocationResults } from "@/components/AllocationResults";
 import { FairnessComparisonView } from "@/components/FairnessComparisonView";
+import { StepIndicator } from "@/components/StepIndicator";
 import { INDIAN_STATES, REGION_GROUPS, generateLocationScenario } from "@/lib/indianData";
 import { calculateShapleyValues, calculateFairnessComparisons } from "@/lib/shapley";
 import { ArrowRight, BarChart3, PieChart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { GlossaryTooltip } from "@/components/HelpTooltip";
 
 const CATEGORIES = [
   { id: "cleanliness" as const, label: "Swachh Bharat (Cleanliness)" },
   { id: "education" as const, label: "Samagra Shiksha (Education)" },
   { id: "health" as const, label: "Ayushman Bharat (Health)" },
   { id: "overall" as const, label: "Composite Index" },
+];
+
+const STEPS = [
+  { label: "Budget", description: "Enter total budget" },
+  { label: "States", description: "Select states" },
+  { label: "Scheme", description: "Choose category" },
+  { label: "Results", description: "View allocation" },
 ];
 
 const fadeUp = (delay: number) => ({
@@ -30,6 +39,9 @@ export function BudgetAllocator() {
   const [resultTab, setResultTab] = useState<"allocation" | "comparison">("allocation");
   const [mapColorMode, setMapColorMode] = useState<"cleanliness" | "literacy" | "health">("cleanliness");
   const [customBudget, setCustomBudget] = useState<string>("");
+
+  // Compute current step
+  const currentStep = showResults ? 3 : selectedStates.length >= 1 ? 2 : customBudget ? 1 : 0;
 
   const toggleState = useCallback((id: string) => {
     setSelectedStates((prev) =>
@@ -91,6 +103,11 @@ export function BudgetAllocator() {
         <p className="text-sm text-muted-foreground max-w-lg mx-auto">
           Select states, enter your budget, choose a scheme category — get mathematically fair allocation
         </p>
+      </motion.div>
+
+      {/* Step Indicator */}
+      <motion.div {...fadeUp(0.03)}>
+        <StepIndicator steps={STEPS} currentStep={currentStep} />
       </motion.div>
 
       {/* Custom Budget Input */}
@@ -173,7 +190,12 @@ export function BudgetAllocator() {
             Selected ({selectedStates.length}/6)
           </h3>
           {selectedStateData.length === 0 ? (
-            <p className="text-xs text-muted-foreground">Click states on the map or use region buttons</p>
+            <div className="text-center py-6">
+              <p className="text-xs text-muted-foreground mb-2">Click states on the map or use region buttons</p>
+              <p className="text-[10px] text-muted-foreground/60">
+                Select 1 state for baseline value, or 2+ for fair distribution
+              </p>
+            </div>
           ) : (
             <div className="space-y-2.5">
               {selectedStateData.map((state) => (
@@ -191,6 +213,11 @@ export function BudgetAllocator() {
                   </div>
                 </div>
               ))}
+              {selectedStates.length === 1 && (
+                <p className="text-[10px] text-primary/70 text-center pt-1 font-display">
+                  ↑ This shows baseline value. Add more for coalition analysis.
+                </p>
+              )}
             </div>
           )}
         </div>
@@ -199,7 +226,10 @@ export function BudgetAllocator() {
       {/* Category Selector */}
       {selectedStates.length >= 1 && (
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
-          <h3 className="font-display font-semibold text-foreground text-center">Choose Allocation Category</h3>
+          <h3 className="font-display font-semibold text-foreground text-center flex items-center justify-center gap-2">
+            Choose Allocation Category
+            <GlossaryTooltip id="coalition" />
+          </h3>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 max-w-2xl mx-auto">
             {CATEGORIES.map((cat) => (
               <button

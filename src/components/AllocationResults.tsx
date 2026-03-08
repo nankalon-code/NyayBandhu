@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { ShapleyResult, formatValue } from "@/lib/shapley";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+import { InsightCard } from "@/components/InsightCard";
+import { GlossaryTooltip } from "@/components/HelpTooltip";
 
 interface AllocationResultsProps {
   results: ShapleyResult[];
@@ -20,6 +22,8 @@ export function AllocationResults({
     percentage: r.percentage,
   }));
 
+  const isSingleState = results.length === 1;
+
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -27,10 +31,19 @@ export function AllocationResults({
         <h2 className="font-display text-2xl font-bold text-foreground mb-1">
           Fair Allocation Results
         </h2>
-        <p className="text-muted-foreground text-sm">
+        <p className="text-muted-foreground text-sm flex items-center justify-center gap-1.5">
           Total: <span className="font-mono font-semibold text-foreground">{formatValue(totalResource, resourceUnit)}</span> distributed using Shapley Values
+          <GlossaryTooltip id="shapley-value" />
         </p>
       </div>
+
+      {/* Insight Card (contextual) */}
+      <InsightCard
+        results={results}
+        totalResource={totalResource}
+        resourceUnit={resourceUnit}
+        isSingleState={isSingleState}
+      />
 
       {/* Chart + Bars */}
       <div className="grid md:grid-cols-2 gap-8 items-center">
@@ -122,9 +135,13 @@ export function AllocationResults({
         transition={{ delay: 0.6, duration: 0.5 }}
         className="glass-card rounded-2xl p-6"
       >
-        <h3 className="font-display font-semibold text-foreground mb-4 flex items-center gap-2">
+        <h3 className="font-display font-semibold text-foreground mb-1 flex items-center gap-2">
           <span className="text-gradient-gold">φ</span> Marginal Contributions Breakdown
+          <GlossaryTooltip id="marginal-contribution" />
         </h3>
+        <p className="text-[11px] text-muted-foreground mb-4">
+          How much each state adds to every possible coalition it could join
+        </p>
         <div className="space-y-6">
           {results.map((result) => (
             <div key={result.playerId}>
@@ -170,8 +187,9 @@ export function AllocationResults({
         transition={{ delay: 0.8 }}
         className="glass-card rounded-2xl p-6 border-primary/15"
       >
-        <h4 className="font-display font-semibold text-foreground mb-2">
+        <h4 className="font-display font-semibold text-foreground mb-2 flex items-center gap-2">
           The Math Behind It
+          <GlossaryTooltip id="fairness-axioms" />
         </h4>
         <div className="font-mono text-sm text-muted-foreground leading-relaxed space-y-1">
           <p className="text-foreground">φᵢ(v) = Σ [|S|!(n-|S|-1)! / n!] × [v(S∪&#123;i&#125;) - v(S)]</p>
