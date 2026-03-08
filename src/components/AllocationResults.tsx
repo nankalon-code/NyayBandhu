@@ -28,7 +28,7 @@ export function AllocationResults({
           Fair Allocation Results
         </h2>
         <p className="text-muted-foreground text-sm">
-          Computed using Shapley Values from cooperative game theory
+          Computed using Shapley Values for mathematically fair distribution
         </p>
       </div>
 
