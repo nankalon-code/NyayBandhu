@@ -147,6 +147,9 @@ export function AllocationResults({
           <p className="text-[11px] text-muted-foreground mt-1">
             Click any state to see how its allocation is distributed across districts based on need
           </p>
+          <span className="inline-block mt-1.5 px-2 py-0.5 rounded-full text-[9px] font-mono bg-accent/10 text-accent border border-accent/20">
+            ⚠ Simulated data for demonstration
+          </span>
         </div>
         <div className="space-y-2">
           {results.map((result) => (

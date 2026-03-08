@@ -170,7 +170,7 @@ const Index = () => {
       {/* Content */}
       <main className="relative pt-28 md:pt-24">
         <section id="about" className="scroll-mt-24">
-          <div className="container max-w-6xl mx-auto px-6 py-16 md:py-24">
+          <div className="container max-w-6xl mx-auto px-4 sm:px-6 py-10 md:py-20">
             <AboutSection />
           </div>
         </section>
@@ -178,7 +178,7 @@ const Index = () => {
         <GradientDivider />
 
         <section id="allocator" className="scroll-mt-24">
-          <div className="container max-w-6xl mx-auto px-6 py-16 md:py-24">
+          <div className="container max-w-6xl mx-auto px-4 sm:px-6 py-10 md:py-20">
             <BudgetAllocator />
           </div>
         </section>
@@ -186,7 +186,7 @@ const Index = () => {
         <GradientDivider />
 
         <section id="report" className="scroll-mt-24">
-          <div className="container max-w-6xl mx-auto px-6 py-16 md:py-24">
+          <div className="container max-w-6xl mx-auto px-4 sm:px-6 py-10 md:py-20">
             <NewsBoard />
           </div>
         </section>
@@ -194,7 +194,7 @@ const Index = () => {
         <GradientDivider />
 
         <section id="contribute" className="scroll-mt-24">
-          <div className="container max-w-6xl mx-auto px-6 py-16 md:py-24">
+          <div className="container max-w-6xl mx-auto px-4 sm:px-6 py-10 md:py-20">
             <ContributeSection />
           </div>
         </section>
