@@ -25,7 +25,7 @@ export function IndiaMap({ states, selectedStateIds, onToggleState, colorMode = 
     if (!mapRef.current || mapInstance.current) return;
 
     mapInstance.current = L.map(mapRef.current, {
-      center: [22.5, 79],
+      center: [22.5, 82],
       zoom: 5,
       zoomControl: true,
       scrollWheelZoom: true,
@@ -47,51 +47,40 @@ export function IndiaMap({ states, selectedStateIds, onToggleState, colorMode = 
   useEffect(() => {
     if (!mapInstance.current) return;
 
-    // Remove existing markers
     mapInstance.current.eachLayer((layer) => {
       if (layer instanceof L.CircleMarker) {
         mapInstance.current?.removeLayer(layer);
       }
     });
 
-    // Add state markers
     states.forEach((state) => {
       const score =
-        colorMode === "cleanliness"
-          ? state.cleanlinessScore
-          : colorMode === "literacy"
-          ? state.literacyRate
-          : state.healthIndex;
+        colorMode === "cleanliness" ? state.cleanlinessScore
+        : colorMode === "literacy" ? state.literacyRate
+        : state.healthIndex;
 
       const isSelected = selectedStateIds.includes(state.id);
-      const radius = Math.max(12, Math.sqrt(state.population) * 1.2);
+      const radius = Math.max(8, Math.sqrt(state.population) * 0.9);
 
       const marker = L.circleMarker([state.lat, state.lng], {
         radius,
         fillColor: isSelected ? "hsl(172, 50%, 45%)" : getColor(score),
-        color: isSelected ? "hsl(172, 50%, 70%)" : "rgba(255,255,255,0.3)",
-        weight: isSelected ? 3 : 1,
+        color: isSelected ? "hsl(172, 50%, 70%)" : "rgba(255,255,255,0.25)",
+        weight: isSelected ? 2.5 : 1,
         opacity: 1,
-        fillOpacity: isSelected ? 0.9 : 0.6,
+        fillOpacity: isSelected ? 0.9 : 0.55,
       }).addTo(mapInstance.current!);
 
-      const tooltipContent = `
-        <div style="font-family: Space Grotesk; font-size: 13px; min-width: 160px;">
+      marker.bindTooltip(`
+        <div style="font-family: Space Grotesk; font-size: 12px; min-width: 140px;">
           <strong>${state.name}</strong><br/>
-          <span style="font-size: 11px; opacity: 0.7;">
-            🧹 Cleanliness: ${state.cleanlinessScore}/100<br/>
-            📚 Literacy: ${state.literacyRate}%<br/>
-            🏥 Health: ${state.healthIndex}/100<br/>
-            👥 Pop: ${state.population}L
+          <span style="font-size: 10px; opacity: 0.7;">
+            CLN: ${state.cleanlinessScore} | LIT: ${state.literacyRate}% | HLT: ${state.healthIndex}<br/>
+            Pop: ${state.population}L
           </span>
-          <br/><em style="font-size: 10px;">${isSelected ? "✓ Selected" : "Click to select"}</em>
+          <br/><em style="font-size: 9px;">${isSelected ? "Selected" : "Click to select"}</em>
         </div>
-      `;
-
-      marker.bindTooltip(tooltipContent, {
-        direction: "top",
-        offset: [0, -radius],
-      });
+      `, { direction: "top", offset: [0, -radius] });
 
       marker.on("click", () => onToggleState(state.id));
     });
@@ -100,7 +89,7 @@ export function IndiaMap({ states, selectedStateIds, onToggleState, colorMode = 
   return (
     <div
       ref={mapRef}
-      className="w-full h-[400px] rounded-xl overflow-hidden border border-border"
+      className="w-full h-[420px] rounded-xl overflow-hidden border border-border"
       style={{ zIndex: 0 }}
     />
   );
