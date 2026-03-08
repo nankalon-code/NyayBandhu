@@ -1,20 +1,22 @@
 import { motion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
 
+const fadeUp = (delay: number) => ({
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-60px" },
+  transition: { duration: 0.6, delay },
+});
+
 export function AboutSection() {
   return (
-    <div className="space-y-10">
+    <div className="space-y-14">
       {/* Hero */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="text-center max-w-3xl mx-auto"
-      >
-        <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-4">
+      <motion.div {...fadeUp(0)} className="text-center max-w-3xl mx-auto">
+        <h1 className="font-display text-4xl sm:text-5xl font-bold text-foreground mb-5 leading-tight">
           What is <span className="text-gradient-primary">NyayBandhu</span>?
-        </h2>
-        <p className="text-muted-foreground leading-relaxed">
+        </h1>
+        <p className="text-base text-muted-foreground leading-relaxed max-w-2xl mx-auto">
           NyayBandhu (meaning "Friend of Justice") is a fair resource allocation engine built for India. 
           It uses mathematical frameworks to distribute budgets, relief supplies, and government scheme funds 
           across states — ensuring every rupee is allocated based on contribution, need, and collaborative impact.
@@ -22,58 +24,43 @@ export function AboutSection() {
       </motion.div>
 
       {/* The Math */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.15 }}
-        className="grid md:grid-cols-2 gap-6"
-      >
-        <div className="surface-elevated rounded-xl p-6 border border-border/50">
+      <div className="grid md:grid-cols-2 gap-6">
+        <motion.div {...fadeUp(0.1)} className="glass-card rounded-2xl p-7">
           <h3 className="font-display font-semibold text-lg text-foreground mb-3">The Shapley Value</h3>
           <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
             Developed by Lloyd Shapley (Nobel Prize in Economics, 2012), 
             the Shapley Value is the only allocation method that satisfies all four fundamental fairness axioms simultaneously.
           </p>
-          <div className="bg-muted rounded-lg p-4 font-mono text-sm text-foreground">
+          <div className="bg-muted/60 rounded-xl p-4 font-mono text-sm text-foreground">
             <p className="mb-1">φᵢ(v) = Σ [|S|!(n-|S|-1)! / n!] × [v(S∪{'{'}i{'}'}) - v(S)]</p>
             <p className="text-xs text-muted-foreground mt-2">
               For each player i, sum over all coalitions S not containing i. 
               The weight ensures every ordering is equally likely.
             </p>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="surface-elevated rounded-xl p-6 border border-border/50">
+        <motion.div {...fadeUp(0.2)} className="glass-card rounded-2xl p-7">
           <h3 className="font-display font-semibold text-lg text-foreground mb-3">How It Works Here</h3>
-          <div className="space-y-3 text-sm text-muted-foreground">
-            <div className="flex gap-3">
-              <span className="font-mono text-primary font-semibold shrink-0">01</span>
-              <p>Select Indian states or enter a custom budget to distribute</p>
-            </div>
-            <div className="flex gap-3">
-              <span className="font-mono text-primary font-semibold shrink-0">02</span>
-              <p>The engine computes every possible coalition and synergy bonus between states</p>
-            </div>
-            <div className="flex gap-3">
-              <span className="font-mono text-primary font-semibold shrink-0">03</span>
-              <p>Marginal contributions are weighted across all orderings</p>
-            </div>
-            <div className="flex gap-3">
-              <span className="font-mono text-primary font-semibold shrink-0">04</span>
-              <p>Fair allocation is output — compared against equal split and proportional methods</p>
-            </div>
+          <div className="space-y-4 text-sm text-muted-foreground">
+            {[
+              "Select Indian states or enter a custom budget to distribute",
+              "The engine computes every possible coalition and synergy bonus between states",
+              "Marginal contributions are weighted across all orderings",
+              "Fair allocation is output — compared against equal split and proportional methods",
+            ].map((text, i) => (
+              <div key={i} className="flex gap-3">
+                <span className="font-mono text-primary font-semibold shrink-0">0{i + 1}</span>
+                <p>{text}</p>
+              </div>
+            ))}
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
 
       {/* Fairness Axioms */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="bg-primary/5 border border-primary/15 rounded-xl p-6"
-      >
-        <h3 className="font-display font-semibold text-lg text-foreground mb-4">
+      <motion.div {...fadeUp(0.15)} className="glass-card rounded-2xl p-7 border-primary/10">
+        <h3 className="font-display font-semibold text-lg text-foreground mb-5">
           Four Axioms of Fairness
         </h3>
         <div className="grid sm:grid-cols-2 gap-4">
@@ -95,19 +82,15 @@ export function AboutSection() {
       </motion.div>
 
       {/* Use Cases */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
-      >
-        <h3 className="font-display font-semibold text-lg text-foreground mb-4">Built for India</h3>
+      <motion.div {...fadeUp(0.2)}>
+        <h3 className="font-display font-semibold text-lg text-foreground mb-5">Built for India</h3>
         <div className="grid sm:grid-cols-3 gap-4">
           {[
             { title: "Government Schemes", desc: "Swachh Bharat, MGNREGA, Ayushman Bharat fund distribution across 29 states" },
             { title: "Disaster Relief", desc: "Fair allocation of supplies among NDRF, Army, NGOs, and local bodies" },
             { title: "State Budgets", desc: "Education, health, and infrastructure budget allocation based on impact" },
           ].map((uc) => (
-            <div key={uc.title} className="p-4 rounded-xl border border-border bg-card">
+            <div key={uc.title} className="glass-card rounded-2xl p-5">
               <h4 className="font-display font-semibold text-sm text-foreground mb-2">{uc.title}</h4>
               <p className="text-xs text-muted-foreground leading-relaxed">{uc.desc}</p>
             </div>

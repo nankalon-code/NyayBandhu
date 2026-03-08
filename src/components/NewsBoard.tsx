@@ -36,8 +36,8 @@ const GOOD_NEWS: NewsItem[] = [
 function SeverityBadge({ severity }: { severity?: string }) {
   if (!severity) return null;
   const styles = {
-    high: "bg-destructive/10 text-destructive border-destructive/20",
-    medium: "bg-accent/10 text-accent-foreground border-accent/20",
+    high: "bg-destructive/15 text-destructive border-destructive/20",
+    medium: "bg-accent/15 text-accent-foreground border-accent/20",
     low: "bg-muted text-muted-foreground border-border",
   };
   return (
@@ -49,16 +49,16 @@ function SeverityBadge({ severity }: { severity?: string }) {
 
 function NewsCard({ item, variant }: { item: NewsItem; variant: "alert" | "positive" }) {
   return (
-    <div className={`p-4 rounded-xl border transition-all hover:shadow-md ${
+    <div className={`p-4 rounded-xl glass-card transition-all duration-300 hover:scale-[1.01] ${
       variant === "alert" 
-        ? "bg-card border-destructive/10 hover:border-destructive/25" 
-        : "bg-card border-primary/10 hover:border-primary/25"
+        ? "hover:border-destructive/30" 
+        : "hover:border-primary/30"
     }`}>
       <div className="flex items-start justify-between gap-3 mb-2">
         <div className="flex items-center gap-2">
           {variant === "alert" 
-            ? <ArrowDownRight className="w-4 h-4 text-destructive shrink-0" />
-            : <ArrowUpRight className="w-4 h-4 text-primary shrink-0" />
+            ? <ArrowDownRight className="w-3.5 h-3.5 text-destructive shrink-0" />
+            : <ArrowUpRight className="w-3.5 h-3.5 text-primary shrink-0" />
           }
           <span className="font-mono text-[10px] text-muted-foreground">{item.category}</span>
         </div>
@@ -67,32 +67,35 @@ function NewsCard({ item, variant }: { item: NewsItem; variant: "alert" | "posit
           <span className="font-mono text-[10px] text-muted-foreground">{item.date}</span>
         </div>
       </div>
-      <h4 className="font-display font-semibold text-sm text-foreground mb-1 leading-tight">{item.title}</h4>
+      <h4 className="font-display font-semibold text-sm text-foreground mb-1 leading-snug">{item.title}</h4>
       <p className="font-mono text-[11px] text-primary font-medium mb-2">{item.location}</p>
       <p className="text-xs text-muted-foreground leading-relaxed">{item.detail}</p>
     </div>
   );
 }
 
+const fadeUp = (delay: number) => ({
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-60px" },
+  transition: { duration: 0.6, delay },
+});
+
 export function NewsBoard() {
   return (
-    <div className="space-y-8">
-      <div className="text-center mb-8">
-        <h2 className="font-display text-2xl font-bold text-foreground mb-2">Ground Reports</h2>
+    <div className="space-y-10">
+      <motion.div {...fadeUp(0)} className="text-center">
+        <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-3">Ground Reports</h2>
         <p className="text-sm text-muted-foreground max-w-xl mx-auto">
           Real-time intelligence from across India — areas needing attention and success stories worth replicating
         </p>
-      </div>
+      </motion.div>
 
       <div className="grid lg:grid-cols-2 gap-8">
         {/* Needs Improvement */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="flex items-center gap-3 mb-4 pb-3 border-b border-destructive/15">
-            <div className="p-2 rounded-lg bg-destructive/10">
+        <motion.div {...fadeUp(0.1)}>
+          <div className="flex items-center gap-3 mb-5 pb-3 border-b border-destructive/15">
+            <div className="p-2 rounded-xl bg-destructive/10">
               <AlertTriangle className="w-4 h-4 text-destructive" />
             </div>
             <div>
@@ -100,7 +103,7 @@ export function NewsBoard() {
               <p className="text-xs text-muted-foreground">Areas requiring immediate resource allocation</p>
             </div>
           </div>
-          <div className="space-y-3 max-h-[600px] overflow-y-auto pr-1">
+          <div className="space-y-3">
             {IMPROVEMENT_NEWS.map((item) => (
               <NewsCard key={item.id} item={item} variant="alert" />
             ))}
@@ -108,13 +111,9 @@ export function NewsBoard() {
         </motion.div>
 
         {/* Good News */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-        >
-          <div className="flex items-center gap-3 mb-4 pb-3 border-b border-primary/15">
-            <div className="p-2 rounded-lg bg-primary/10">
+        <motion.div {...fadeUp(0.2)}>
+          <div className="flex items-center gap-3 mb-5 pb-3 border-b border-primary/15">
+            <div className="p-2 rounded-xl bg-primary/10">
               <TrendingUp className="w-4 h-4 text-primary" />
             </div>
             <div>
@@ -122,7 +121,7 @@ export function NewsBoard() {
               <p className="text-xs text-muted-foreground">Models of efficiency worth training on</p>
             </div>
           </div>
-          <div className="space-y-3 max-h-[600px] overflow-y-auto pr-1">
+          <div className="space-y-3">
             {GOOD_NEWS.map((item) => (
               <NewsCard key={item.id} item={item} variant="positive" />
             ))}

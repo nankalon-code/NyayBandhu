@@ -6,32 +6,32 @@
 
 @layer base {
   :root {
-    --background: 200 20% 98%;
-    --foreground: 200 50% 8%;
+    --background: 210 20% 98%;
+    --foreground: 210 40% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 200 50% 8%;
+    --card-foreground: 210 40% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 200 50% 8%;
+    --popover-foreground: 210 40% 10%;
 
     --primary: 172 50% 28%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 200 15% 93%;
-    --secondary-foreground: 200 50% 8%;
+    --secondary: 210 15% 93%;
+    --secondary-foreground: 210 40% 10%;
 
-    --muted: 200 10% 94%;
-    --muted-foreground: 200 15% 45%;
+    --muted: 210 12% 93%;
+    --muted-foreground: 210 10% 40%;
 
     --accent: 42 90% 55%;
     --accent-foreground: 42 90% 12%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 200 15% 88%;
-    --input: 200 15% 88%;
+    --border: 210 15% 88%;
+    --input: 210 15% 88%;
     --ring: 172 50% 28%;
 
     --radius: 0.75rem;
@@ -47,7 +47,7 @@
 
     /* Custom tokens */
     --surface-elevated: 0 0% 100%;
-    --surface-sunken: 200 15% 95%;
+    --surface-sunken: 210 15% 95%;
     --gold: 42 90% 55%;
     --gold-muted: 42 60% 75%;
     --teal: 172 50% 28%;
@@ -62,25 +62,25 @@
   }
 
   .dark {
-    --background: 200 30% 6%;
-    --foreground: 200 15% 92%;
-    --card: 200 25% 10%;
-    --card-foreground: 200 15% 92%;
-    --popover: 200 25% 10%;
-    --popover-foreground: 200 15% 92%;
-    --primary: 172 45% 45%;
-    --primary-foreground: 200 30% 6%;
-    --secondary: 200 20% 15%;
-    --secondary-foreground: 200 15% 92%;
-    --muted: 200 20% 15%;
-    --muted-foreground: 200 10% 55%;
+    --background: 220 25% 6%;
+    --foreground: 210 20% 90%;
+    --card: 220 20% 10%;
+    --card-foreground: 210 20% 90%;
+    --popover: 220 20% 10%;
+    --popover-foreground: 210 20% 90%;
+    --primary: 172 45% 50%;
+    --primary-foreground: 220 25% 6%;
+    --secondary: 220 15% 15%;
+    --secondary-foreground: 210 20% 90%;
+    --muted: 220 15% 14%;
+    --muted-foreground: 210 12% 58%;
     --accent: 42 80% 55%;
     --accent-foreground: 42 90% 12%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 200 20% 18%;
-    --input: 200 20% 18%;
-    --ring: 172 45% 45%;
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 15% 18%;
+    --input: 220 15% 18%;
+    --ring: 172 45% 50%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -89,6 +89,17 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --surface-elevated: 220 20% 11%;
+    --surface-sunken: 220 20% 8%;
+    --teal: 172 45% 50%;
+    --teal-light: 172 40% 60%;
+    --teal-muted: 172 20% 20%;
+    --gold: 42 80% 55%;
+    --gold-muted: 42 40% 35%;
+    --emerald: 160 45% 45%;
+    --coral: 12 75% 60%;
+    --indigo: 230 55% 60%;
   }
 }
 
@@ -100,6 +111,10 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-display);
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 }
 
@@ -123,9 +138,22 @@
     box-shadow: 0 1px 3px hsl(var(--foreground) / 0.04), 0 4px 20px hsl(var(--foreground) / 0.03);
   }
   .surface-glass {
-    background: hsl(var(--surface-elevated) / 0.7);
-    backdrop-filter: blur(20px);
-    border: 1px solid hsl(var(--border) / 0.5);
+    background: hsl(var(--surface-elevated) / 0.6);
+    backdrop-filter: blur(24px) saturate(1.2);
+    -webkit-backdrop-filter: blur(24px) saturate(1.2);
+    border: 1px solid hsl(var(--border) / 0.4);
+  }
+  .glass-nav {
+    background: hsl(var(--background) / 0.7);
+    backdrop-filter: blur(20px) saturate(1.3);
+    -webkit-backdrop-filter: blur(20px) saturate(1.3);
+    border-bottom: 1px solid hsl(var(--border) / 0.3);
+  }
+  .glass-card {
+    background: hsl(var(--card) / 0.6);
+    backdrop-filter: blur(16px) saturate(1.1);
+    -webkit-backdrop-filter: blur(16px) saturate(1.1);
+    border: 1px solid hsl(var(--border) / 0.3);
   }
   .glow-teal {
     box-shadow: 0 0 40px hsl(var(--teal) / 0.15), 0 0 80px hsl(var(--teal) / 0.05);
