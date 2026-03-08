@@ -255,6 +255,7 @@ export function LocationAllocator() {
               results={results}
               totalResource={scenario.totalResource}
               resourceUnit={scenario.resourceUnit}
+              category={category}
             />
           ) : (
             <FairnessComparisonView
