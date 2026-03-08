@@ -279,7 +279,7 @@ export function BudgetAllocator() {
           </div>
 
           {resultTab === "allocation" ? (
-            <AllocationResults results={results} totalResource={adjustedScenario.totalResource} resourceUnit={adjustedScenario.resourceUnit} />
+            <AllocationResults results={results} totalResource={adjustedScenario.totalResource} resourceUnit={adjustedScenario.resourceUnit} category={category} />
           ) : (
             <FairnessComparisonView comparisons={comparisons} resourceUnit={adjustedScenario.resourceUnit} />
           )}

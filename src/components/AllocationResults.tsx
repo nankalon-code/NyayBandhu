@@ -3,17 +3,21 @@ import { ShapleyResult, formatValue } from "@/lib/shapley";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { InsightCard } from "@/components/InsightCard";
 import { GlossaryTooltip } from "@/components/HelpTooltip";
+import { DistrictBreakdown } from "@/components/DistrictBreakdown";
+import { MapPinned } from "lucide-react";
 
 interface AllocationResultsProps {
   results: ShapleyResult[];
   totalResource: number;
   resourceUnit: string;
+  category?: "cleanliness" | "education" | "health" | "overall";
 }
 
 export function AllocationResults({
   results,
   totalResource,
   resourceUnit,
+  category = "cleanliness",
 }: AllocationResultsProps) {
   const pieData = results.map((r) => ({
     name: r.playerName,
@@ -127,6 +131,37 @@ export function AllocationResults({
           ))}
         </div>
       </div>
+
+      {/* District-level drill-down */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+        className="space-y-4"
+      >
+        <div className="text-center">
+          <h3 className="font-display font-semibold text-foreground flex items-center justify-center gap-2">
+            <MapPinned className="w-5 h-5 text-primary" />
+            District-Level Breakdown
+          </h3>
+          <p className="text-[11px] text-muted-foreground mt-1">
+            Click any state to see how its allocation is distributed across districts based on need
+          </p>
+        </div>
+        <div className="space-y-2">
+          {results.map((result) => (
+            <DistrictBreakdown
+              key={result.playerId}
+              stateId={result.playerId}
+              stateName={result.playerName}
+              stateBudget={result.shapleyValue}
+              category={category}
+              resourceUnit={resourceUnit}
+              color={result.color}
+            />
+          ))}
+        </div>
+      </motion.div>
 
       {/* Marginal contributions detail */}
       <motion.div
