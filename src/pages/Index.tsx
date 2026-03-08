@@ -17,7 +17,12 @@ const NAV_ITEMS = [
 ];
 
 const Index = () => {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
+
+  // Start in dark mode
+  useEffect(() => {
+    document.documentElement.classList.add("dark");
+  }, []);
   const [activeSection, setActiveSection] = useState("about");
 
   const toggleDarkMode = () => {
