@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { FairnessComparison, formatValue } from "@/lib/shapley";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend } from "recharts";
 import { CheckCircle2, AlertTriangle, XCircle } from "lucide-react";
+import { GlossaryTooltip } from "@/components/HelpTooltip";
 
 interface FairnessComparisonViewProps {
   comparisons: FairnessComparison[];
