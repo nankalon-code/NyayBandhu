@@ -132,6 +132,37 @@ export function AllocationResults({
         </div>
       </div>
 
+      {/* District-level drill-down */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+        className="space-y-4"
+      >
+        <div className="text-center">
+          <h3 className="font-display font-semibold text-foreground flex items-center justify-center gap-2">
+            <MapPinned className="w-5 h-5 text-primary" />
+            District-Level Breakdown
+          </h3>
+          <p className="text-[11px] text-muted-foreground mt-1">
+            Click any state to see how its allocation is distributed across districts based on need
+          </p>
+        </div>
+        <div className="space-y-2">
+          {results.map((result) => (
+            <DistrictBreakdown
+              key={result.playerId}
+              stateId={result.playerId}
+              stateName={result.playerName}
+              stateBudget={result.shapleyValue}
+              category={category}
+              resourceUnit={resourceUnit}
+              color={result.color}
+            />
+          ))}
+        </div>
+      </motion.div>
+
       {/* Marginal contributions detail */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
