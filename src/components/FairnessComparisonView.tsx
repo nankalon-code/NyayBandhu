@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { FairnessComparison, formatValue } from "@/lib/shapley";
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, Cell } from "recharts";
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend } from "recharts";
 import { CheckCircle2, AlertTriangle, XCircle } from "lucide-react";
 
 interface FairnessComparisonViewProps {
@@ -9,7 +9,6 @@ interface FairnessComparisonViewProps {
 }
 
 export function FairnessComparisonView({ comparisons, resourceUnit }: FairnessComparisonViewProps) {
-  // Build chart data: each player is a group, each method is a bar
   const players = comparisons[0].allocations.map((a) => a.playerName);
   const chartData = players.map((name, i) => {
     const row: Record<string, string | number> = { name };
@@ -20,9 +19,9 @@ export function FairnessComparisonView({ comparisons, resourceUnit }: FairnessCo
   });
 
   const methodColors: Record<string, string> = {
-    "Equal Split": "hsl(200, 15%, 60%)",
-    "Proportional": "hsl(42, 90%, 55%)",
-    "Shapley Value": "hsl(172, 50%, 28%)",
+    "Equal Split": "hsl(var(--muted-foreground))",
+    "Proportional": "hsl(var(--gold))",
+    "Shapley Value": "hsl(var(--primary))",
   };
 
   const methodIcons: Record<string, React.ReactNode> = {
@@ -54,17 +53,17 @@ export function FairnessComparisonView({ comparisons, resourceUnit }: FairnessCo
       </div>
 
       {/* Grouped Bar Chart */}
-      <div className="surface-elevated rounded-xl p-6">
+      <div className="glass-card rounded-2xl p-6">
         <ResponsiveContainer width="100%" height={320}>
           <BarChart data={chartData} barGap={4} barCategoryGap="20%">
             <XAxis
               dataKey="name"
-              tick={{ fontFamily: "Space Grotesk", fontSize: 12, fill: "hsl(200, 15%, 45%)" }}
+              tick={{ fontFamily: "Space Grotesk", fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
               axisLine={false}
               tickLine={false}
             />
             <YAxis
-              tick={{ fontFamily: "JetBrains Mono", fontSize: 11, fill: "hsl(200, 15%, 45%)" }}
+              tick={{ fontFamily: "JetBrains Mono", fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
               axisLine={false}
               tickLine={false}
               tickFormatter={(v) => formatValue(v, resourceUnit)}
@@ -77,10 +76,13 @@ export function FairnessComparisonView({ comparisons, resourceUnit }: FairnessCo
                 borderRadius: "0.75rem",
                 fontFamily: "Space Grotesk",
                 fontSize: "0.8rem",
+                color: "hsl(var(--foreground))",
               }}
+              labelStyle={{ color: "hsl(var(--foreground))" }}
+              itemStyle={{ color: "hsl(var(--foreground))" }}
             />
             <Legend
-              wrapperStyle={{ fontFamily: "Space Grotesk", fontSize: "0.8rem" }}
+              wrapperStyle={{ fontFamily: "Space Grotesk", fontSize: "0.8rem", color: "hsl(var(--foreground))" }}
             />
             {comparisons.map((c) => (
               <Bar
@@ -104,10 +106,10 @@ export function FairnessComparisonView({ comparisons, resourceUnit }: FairnessCo
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 + i * 0.1, duration: 0.5 }}
-              className={`rounded-xl border-2 p-5 transition-all ${
+              className={`rounded-2xl border-2 p-5 transition-all ${
                 c.method === "Shapley Value"
-                  ? "border-primary bg-primary/5 glow-teal"
-                  : "border-border bg-card"
+                  ? "border-primary glass-card glow-teal"
+                  : "border-border/30 glass-card"
               }`}
             >
               <div className="flex items-center gap-2 mb-3">
@@ -132,7 +134,7 @@ export function FairnessComparisonView({ comparisons, resourceUnit }: FairnessCo
               </div>
               <p className="text-xs text-muted-foreground">{fs.desc}</p>
 
-              <div className="mt-4 pt-3 border-t border-border space-y-2">
+              <div className="mt-4 pt-3 border-t border-border/30 space-y-2">
                 {c.allocations.map((a) => (
                   <div key={a.playerId} className="flex justify-between items-center">
                     <div className="flex items-center gap-1.5">
@@ -157,7 +159,7 @@ export function FairnessComparisonView({ comparisons, resourceUnit }: FairnessCo
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8 }}
-        className="bg-primary/5 border border-primary/20 rounded-xl p-6"
+        className="glass-card rounded-2xl p-6 border-primary/15"
       >
         <h4 className="font-display font-semibold text-foreground mb-3">
           Why Shapley is the Only Fair Method
