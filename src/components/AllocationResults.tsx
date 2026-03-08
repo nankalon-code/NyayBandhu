@@ -17,6 +17,7 @@ export function AllocationResults({
   results,
   totalResource,
   resourceUnit,
+  category = "cleanliness",
 }: AllocationResultsProps) {
   const pieData = results.map((r) => ({
     name: r.playerName,
