@@ -139,6 +139,38 @@ const COLORS = [
 
 export const SCENARIOS: Scenario[] = [
   {
+    id: "swachh-bharat",
+    name: "Swachh Bharat Cleanliness Fund",
+    description:
+      "Fairly distribute ₹30 Crore among 4 states for Swachh Bharat Mission based on cleanliness impact and collaborative improvement.",
+    icon: "🧹",
+    totalResource: 30_00_00_000,
+    resourceUnit: "₹",
+    players: [
+      { id: "up", name: "Uttar Pradesh", color: COLORS[0] },
+      { id: "bihar", name: "Bihar", color: COLORS[1] },
+      { id: "mp", name: "Madhya Pradesh", color: COLORS[2] },
+      { id: "rajasthan", name: "Rajasthan", color: COLORS[3] },
+    ],
+    coalitionValues: [
+      { coalition: ["up"], value: 6_00_00_000 },
+      { coalition: ["bihar"], value: 4_00_00_000 },
+      { coalition: ["mp"], value: 5_50_00_000 },
+      { coalition: ["rajasthan"], value: 4_50_00_000 },
+      { coalition: ["up", "bihar"], value: 12_00_00_000 },
+      { coalition: ["up", "mp"], value: 13_50_00_000 },
+      { coalition: ["up", "rajasthan"], value: 12_50_00_000 },
+      { coalition: ["bihar", "mp"], value: 11_00_00_000 },
+      { coalition: ["bihar", "rajasthan"], value: 10_00_00_000 },
+      { coalition: ["mp", "rajasthan"], value: 11_50_00_000 },
+      { coalition: ["up", "bihar", "mp"], value: 21_00_00_000 },
+      { coalition: ["up", "bihar", "rajasthan"], value: 19_50_00_000 },
+      { coalition: ["up", "mp", "rajasthan"], value: 22_00_00_000 },
+      { coalition: ["bihar", "mp", "rajasthan"], value: 18_00_00_000 },
+      { coalition: ["up", "bihar", "mp", "rajasthan"], value: 30_00_00_000 },
+    ],
+  },
+  {
     id: "state-budget",
     name: "State Education Budget",
     description:
