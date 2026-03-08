@@ -337,6 +337,23 @@ export function generateLocationScenario(
     .map((id) => INDIAN_STATES.find((s) => s.id === id))
     .filter(Boolean) as StateData[];
 
+  const categoryLabels = {
+    cleanliness: "Swachh Bharat",
+    education: "Samagra Shiksha",
+    health: "Ayushman Bharat",
+    overall: "Composite Index",
+  };
+
+  function getStateValue(state: StateData): number {
+    switch (category) {
+      case "cleanliness": return state.cleanlinessScore * state.population * 0.1;
+      case "education": return state.literacyRate * state.population * 0.1;
+      case "health": return state.healthIndex * state.population * 0.1;
+      case "overall":
+        return (state.cleanlinessScore * 0.3 + state.literacyRate * 0.35 + state.healthIndex * 0.35) * state.population * 0.1;
+    }
+  }
+
   if (states.length < 1) return null;
 
   // Single state: return simple scenario with just that state
@@ -353,16 +370,6 @@ export function generateLocationScenario(
       players: [{ id: state.id, name: state.name, color: COLORS[0] }],
       coalitionValues: [{ coalition: [state.id], value: Math.round(value) }],
     };
-  }
-
-  function getStateValue(state: StateData): number {
-    switch (category) {
-      case "cleanliness": return state.cleanlinessScore * state.population * 0.1;
-      case "education": return state.literacyRate * state.population * 0.1;
-      case "health": return state.healthIndex * state.population * 0.1;
-      case "overall":
-        return (state.cleanlinessScore * 0.3 + state.literacyRate * 0.35 + state.healthIndex * 0.35) * state.population * 0.1;
-    }
   }
 
   function getCoalitionSynergy(coalition: StateData[]): number {
@@ -390,13 +397,6 @@ export function generateLocationScenario(
 
   const allCoalitions = getAllSubsets(states);
   const totalValue = getCoalitionSynergy(states);
-
-  const categoryLabels = {
-    cleanliness: "Swachh Bharat",
-    education: "Samagra Shiksha",
-    health: "Ayushman Bharat",
-    overall: "Composite Index",
-  };
 
   return {
     id: `location-${category}`,
