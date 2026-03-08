@@ -5,6 +5,7 @@ import { BudgetAllocator } from "@/components/BudgetAllocator";
 import { ContributeSection } from "@/components/ContributeSection";
 import { NewsBoard } from "@/components/NewsBoard";
 import { Moon, Sun, Scale } from "lucide-react";
+import { FloatingParticles } from "@/components/FloatingParticles";
 
 const NAV_ITEMS = [
   { id: "about", label: "About" },
