@@ -28,7 +28,7 @@ export function AllocationResults({
           Fair Allocation Results
         </h2>
         <p className="text-muted-foreground text-sm">
-          Computed using Shapley Values for mathematically fair distribution
+          Total: <span className="font-mono font-semibold text-foreground">{formatValue(totalResource, resourceUnit)}</span> distributed using Shapley Values
         </p>
       </div>
 
@@ -65,14 +65,17 @@ export function AllocationResults({
                   borderRadius: "0.75rem",
                   fontFamily: "Space Grotesk",
                   fontSize: "0.875rem",
+                  color: "hsl(var(--foreground))",
                 }}
+                labelStyle={{ color: "hsl(var(--foreground))" }}
+                itemStyle={{ color: "hsl(var(--foreground))" }}
               />
             </PieChart>
           </ResponsiveContainer>
         </motion.div>
 
         {/* Bar breakdown */}
-        <div className="space-y-4">
+        <div className="space-y-5">
           {results.map((result, i) => (
             <motion.div
               key={result.playerId}
@@ -82,20 +85,20 @@ export function AllocationResults({
               className="space-y-2"
             >
               <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2.5">
                   <div
-                    className="w-3 h-3 rounded-full"
+                    className="w-3.5 h-3.5 rounded-full ring-2 ring-background"
                     style={{ backgroundColor: result.color }}
                   />
-                  <span className="font-display font-medium text-sm text-foreground">
+                  <span className="font-display font-semibold text-sm text-foreground">
                     {result.playerName}
                   </span>
                 </div>
-                <span className="font-mono text-sm font-semibold text-foreground">
+                <span className="font-mono text-sm font-bold text-foreground">
                   {formatValue(result.shapleyValue, resourceUnit)}
                 </span>
               </div>
-              <div className="w-full h-3 rounded-full bg-muted overflow-hidden">
+              <div className="w-full h-3 rounded-full bg-muted/60 overflow-hidden">
                 <motion.div
                   className="h-full rounded-full"
                   style={{ backgroundColor: result.color }}
@@ -117,7 +120,7 @@ export function AllocationResults({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6, duration: 0.5 }}
-        className="surface-elevated rounded-xl p-6"
+        className="glass-card rounded-2xl p-6"
       >
         <h3 className="font-display font-semibold text-foreground mb-4 flex items-center gap-2">
           <span className="text-gradient-gold">φ</span> Marginal Contributions Breakdown
@@ -127,7 +130,7 @@ export function AllocationResults({
             <div key={result.playerId}>
               <div className="flex items-center gap-2 mb-2">
                 <div
-                  className="w-2 h-2 rounded-full"
+                  className="w-2.5 h-2.5 rounded-full"
                   style={{ backgroundColor: result.color }}
                 />
                 <span className="font-display font-medium text-sm text-foreground">
@@ -138,9 +141,9 @@ export function AllocationResults({
                 {result.marginalContributions.map((mc, j) => (
                   <div
                     key={j}
-                    className="bg-muted rounded-lg px-3 py-2 text-center"
+                    className="bg-muted/40 rounded-xl px-3 py-2.5 text-center border border-border/20"
                   >
-                    <div className="font-mono text-xs text-muted-foreground mb-1">
+                    <div className="font-mono text-[10px] text-muted-foreground mb-1">
                       {mc.coalition.length === 0
                         ? "∅ (alone)"
                         : `+ {${mc.coalition.join(", ")}}`}
@@ -165,13 +168,13 @@ export function AllocationResults({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8 }}
-        className="bg-primary/5 border border-primary/20 rounded-xl p-6"
+        className="glass-card rounded-2xl p-6 border-primary/15"
       >
         <h4 className="font-display font-semibold text-foreground mb-2">
           The Math Behind It
         </h4>
         <div className="font-mono text-sm text-muted-foreground leading-relaxed space-y-1">
-          <p>φᵢ(v) = Σ [|S|!(n-|S|-1)! / n!] × [v(S∪&#123;i&#125;) - v(S)]</p>
+          <p className="text-foreground">φᵢ(v) = Σ [|S|!(n-|S|-1)! / n!] × [v(S∪&#123;i&#125;) - v(S)]</p>
           <p className="text-xs mt-2">
             For each player i, we sum over all coalitions S not containing i.
             The weight ensures every ordering of players is equally likely.
