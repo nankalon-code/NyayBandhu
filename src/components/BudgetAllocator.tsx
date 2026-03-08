@@ -5,7 +5,7 @@ import { AllocationResults } from "@/components/AllocationResults";
 import { FairnessComparisonView } from "@/components/FairnessComparisonView";
 import { INDIAN_STATES, REGION_GROUPS, generateLocationScenario } from "@/lib/indianData";
 import { calculateShapleyValues, calculateFairnessComparisons } from "@/lib/shapley";
-import { MapPin, ArrowRight, BarChart3, PieChart } from "lucide-react";
+import { ArrowRight, BarChart3, PieChart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -15,6 +15,13 @@ const CATEGORIES = [
   { id: "health" as const, label: "Ayushman Bharat (Health)" },
   { id: "overall" as const, label: "Composite Index" },
 ];
+
+const fadeUp = (delay: number) => ({
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-60px" },
+  transition: { duration: 0.6, delay },
+});
 
 export function BudgetAllocator() {
   const [selectedStates, setSelectedStates] = useState<string[]>([]);
@@ -77,18 +84,18 @@ export function BudgetAllocator() {
   const selectedStateData = INDIAN_STATES.filter((s) => selectedStates.includes(s.id));
 
   return (
-    <section className="space-y-8">
+    <section className="space-y-10">
       {/* Header */}
-      <div className="text-center mb-4">
-        <h2 className="font-display text-2xl font-bold text-foreground mb-2">Budget Allocator</h2>
+      <motion.div {...fadeUp(0)} className="text-center">
+        <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-3">Budget Allocator</h2>
         <p className="text-sm text-muted-foreground max-w-lg mx-auto">
           Select states, enter your budget, choose a scheme category — get mathematically fair allocation
         </p>
-      </div>
+      </motion.div>
 
       {/* Custom Budget Input */}
-      <div className="max-w-md mx-auto surface-elevated rounded-xl p-5 border border-border/50">
-        <label className="font-display text-sm font-medium text-foreground mb-2 block">
+      <motion.div {...fadeUp(0.05)} className="max-w-md mx-auto glass-card rounded-2xl p-6">
+        <label className="font-display text-sm font-medium text-foreground mb-2.5 block">
           Enter Total Budget (₹ Crores)
         </label>
         <div className="flex gap-3">
@@ -105,29 +112,29 @@ export function BudgetAllocator() {
           </div>
           <span className="self-center text-xs text-muted-foreground font-mono">Cr</span>
         </div>
-        <p className="text-[11px] text-muted-foreground mt-2">
+        <p className="text-[11px] text-muted-foreground mt-2.5">
           Leave empty to use auto-calculated values based on state metrics
         </p>
-      </div>
+      </motion.div>
 
       {/* Region Select */}
-      <div className="flex flex-wrap gap-2 justify-center">
+      <motion.div {...fadeUp(0.1)} className="flex flex-wrap gap-2 justify-center">
         {REGION_GROUPS.map((region) => (
           <button
             key={region.id}
             onClick={() => selectRegion(region.id)}
-            className="px-4 py-2 rounded-lg text-xs font-display font-medium border border-border bg-card hover:bg-muted transition-colors text-foreground"
+            className="px-4 py-2 rounded-full text-xs font-display font-medium glass-card hover:bg-muted/50 transition-all duration-300 text-foreground"
           >
             {region.name}
           </button>
         ))}
         <button
           onClick={() => { setSelectedStates([]); setShowResults(false); }}
-          className="px-4 py-2 rounded-lg text-xs font-display font-medium border border-destructive/30 text-destructive hover:bg-destructive/5 transition-colors"
+          className="px-4 py-2 rounded-full text-xs font-display font-medium border border-destructive/30 text-destructive hover:bg-destructive/5 transition-all duration-300"
         >
           Clear
         </button>
-      </div>
+      </motion.div>
 
       {/* Map + State Info */}
       <div className="grid lg:grid-cols-3 gap-6">
@@ -141,8 +148,8 @@ export function BudgetAllocator() {
               <button
                 key={mode}
                 onClick={() => setMapColorMode(mode)}
-                className={`px-3 py-1.5 rounded-md text-xs font-display font-medium transition-colors ${
-                  mapColorMode === mode ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:text-foreground"
+                className={`px-3 py-1.5 rounded-full text-xs font-display font-medium transition-all duration-300 ${
+                  mapColorMode === mode ? "bg-primary text-primary-foreground" : "bg-muted/60 text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {label}
@@ -155,14 +162,14 @@ export function BudgetAllocator() {
             onToggleState={toggleState}
             colorMode={mapColorMode}
           />
-          <p className="text-[11px] text-muted-foreground mt-2">
+          <p className="text-[11px] text-muted-foreground mt-2.5">
             Click states to select (max 6). Circle size = population. Color = {mapColorMode} score.
           </p>
         </div>
 
         {/* Selected states panel */}
-        <div className="surface-elevated rounded-xl p-5 border border-border/50 self-start">
-          <h3 className="font-display font-semibold text-foreground mb-3 text-sm">
+        <div className="glass-card rounded-2xl p-6 self-start">
+          <h3 className="font-display font-semibold text-foreground mb-4 text-sm">
             Selected ({selectedStates.length}/6)
           </h3>
           {selectedStateData.length === 0 ? (
@@ -170,7 +177,7 @@ export function BudgetAllocator() {
           ) : (
             <div className="space-y-2.5">
               {selectedStateData.map((state) => (
-                <div key={state.id} className="p-3 rounded-lg bg-muted/70 border border-border/30">
+                <div key={state.id} className="p-3 rounded-xl bg-muted/40 border border-border/30">
                   <div className="flex justify-between items-center mb-1.5">
                     <span className="font-display font-medium text-sm text-foreground">{state.name}</span>
                     <button onClick={() => toggleState(state.id)} className="text-[10px] text-destructive hover:underline font-mono">
@@ -191,15 +198,15 @@ export function BudgetAllocator() {
 
       {/* Category Selector */}
       {selectedStates.length >= 2 && (
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
           <h3 className="font-display font-semibold text-foreground text-center">Choose Allocation Category</h3>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 max-w-2xl mx-auto">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => { setCategory(cat.id); setShowResults(false); }}
-                className={`p-3.5 rounded-xl border-2 text-left transition-all ${
-                  category === cat.id ? "border-primary bg-primary/5" : "border-border bg-card hover:border-primary/30"
+                className={`p-4 rounded-xl border-2 text-left transition-all duration-300 ${
+                  category === cat.id ? "border-primary bg-primary/5 glow-teal" : "glass-card hover:border-primary/30"
                 }`}
               >
                 <p className="font-display font-medium text-sm text-foreground">{cat.label}</p>
@@ -222,19 +229,19 @@ export function BudgetAllocator() {
       {/* Results */}
       {showResults && results && adjustedScenario && comparisons && (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="pt-4">
-          <div className="flex gap-2 mb-8 p-1 bg-muted rounded-xl w-fit mx-auto">
+          <div className="flex gap-2 mb-8 p-1 glass-card rounded-full w-fit mx-auto">
             <button
               onClick={() => setResultTab("allocation")}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-display font-medium text-sm transition-all ${
-                resultTab === "allocation" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-display font-medium text-sm transition-all duration-300 ${
+                resultTab === "allocation" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               <PieChart className="w-4 h-4" /> Allocation
             </button>
             <button
               onClick={() => setResultTab("comparison")}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-display font-medium text-sm transition-all ${
-                resultTab === "comparison" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-display font-medium text-sm transition-all duration-300 ${
+                resultTab === "comparison" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               <BarChart3 className="w-4 h-4" /> Fairness Comparison
