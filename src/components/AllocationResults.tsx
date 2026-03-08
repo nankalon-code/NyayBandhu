@@ -8,6 +8,7 @@ interface AllocationResultsProps {
   results: ShapleyResult[];
   totalResource: number;
   resourceUnit: string;
+  category?: "cleanliness" | "education" | "health" | "overall";
 }
 
 export function AllocationResults({
