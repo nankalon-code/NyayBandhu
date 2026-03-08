@@ -5,6 +5,7 @@ import { BudgetAllocator } from "@/components/BudgetAllocator";
 import { ContributeSection } from "@/components/ContributeSection";
 import { NewsBoard } from "@/components/NewsBoard";
 import { Moon, Sun, Scale } from "lucide-react";
+import { FloatingParticles } from "@/components/FloatingParticles";
 
 const NAV_ITEMS = [
   { id: "about", label: "About" },
@@ -45,11 +46,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background transition-colors duration-500">
       {/* Ambient background */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
-        <div className="absolute -top-60 -right-60 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[120px]" />
-        <div className="absolute top-1/2 -left-40 w-[500px] h-[500px] rounded-full bg-accent/5 blur-[100px]" />
-        <div className="absolute -bottom-40 right-1/3 w-[400px] h-[400px] rounded-full bg-primary/3 blur-[80px]" />
-      </div>
+      <FloatingParticles />
 
       {/* Glass Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 glass-nav">
