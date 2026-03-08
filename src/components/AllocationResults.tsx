@@ -3,6 +3,8 @@ import { ShapleyResult, formatValue } from "@/lib/shapley";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { InsightCard } from "@/components/InsightCard";
 import { GlossaryTooltip } from "@/components/HelpTooltip";
+import { DistrictBreakdown } from "@/components/DistrictBreakdown";
+import { MapPinned } from "lucide-react";
 
 interface AllocationResultsProps {
   results: ShapleyResult[];
