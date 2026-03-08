@@ -60,15 +60,9 @@ export function AboutSection() {
           whileInView={{ scale: 1, rotate: 0 }}
           viewport={{ once: true }}
           transition={{ type: "spring", duration: 0.8 }}
-          className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center relative overflow-hidden"
+          className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center"
         >
-          {/* Shimmer sweep */}
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent -skew-x-12"
-            animate={{ x: ["-150%", "150%"] }}
-            transition={{ duration: 3, repeat: Infinity, repeatDelay: 4, ease: "easeInOut" }}
-          />
-          <Sparkles className="w-8 h-8 text-primary relative z-10" />
+          <Sparkles className="w-8 h-8 text-primary" />
         </motion.div>
         <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-5 leading-tight">
           What is{" "}
@@ -78,12 +72,6 @@ export function AboutSection() {
             transition={{ type: "spring", stiffness: 300 }}
           >
             NyayBandhu
-            {/* Underline shimmer */}
-            <motion.span
-              className="absolute -bottom-1 left-0 right-0 h-[3px] rounded-full bg-gradient-to-r from-primary/0 via-primary to-primary/0"
-              animate={{ opacity: [0.3, 0.8, 0.3] }}
-              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-            />
           </motion.span>
           ?
         </h1>
@@ -112,16 +100,10 @@ export function AboutSection() {
           </p>
           <motion.div
             whileHover={{ scale: 1.02 }}
-            className="relative bg-muted/60 rounded-xl p-4 font-mono text-sm text-foreground cursor-default overflow-hidden"
+            className="relative bg-muted/60 rounded-xl p-4 font-mono text-sm text-foreground cursor-default"
           >
-            {/* Code shimmer */}
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent -skew-x-12"
-              animate={{ x: ["-200%", "200%"] }}
-              transition={{ duration: 4, repeat: Infinity, repeatDelay: 6, ease: "easeInOut" }}
-            />
-            <p className="mb-1 relative z-10">φᵢ(v) = Σ [|S|!(n-|S|-1)! / n!] × [v(S∪{'{'}i{'}'}) - v(S)]</p>
-            <p className="text-xs text-muted-foreground mt-2 relative z-10">
+            <p className="mb-1">φᵢ(v) = Σ [|S|!(n-|S|-1)! / n!] × [v(S∪{'{'}i{'}'}) - v(S)]</p>
+            <p className="text-xs text-muted-foreground mt-2">
               For each player i, sum over all coalitions S not containing i. 
               The weight ensures every ordering is equally likely.
             </p>
