@@ -6,6 +6,7 @@ import { ContributeSection } from "@/components/ContributeSection";
 import { NewsBoard } from "@/components/NewsBoard";
 import { Moon, Sun, Scale } from "lucide-react";
 import { FloatingParticles } from "@/components/FloatingParticles";
+import { PolkaDots } from "@/components/PolkaDots";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { GradientDivider } from "@/components/GradientDivider";
 
@@ -54,6 +55,7 @@ const Index = () => {
     <div className="min-h-screen bg-background transition-colors duration-500">
       <ScrollProgress />
       <FloatingParticles />
+      <PolkaDots />
 
       {/* Glass Navigation */}
       <nav className="fixed top-[2px] left-0 right-0 z-50 glass-nav">

@@ -47,7 +47,7 @@ export function BudgetAllocator() {
   };
 
   const scenario = useMemo(
-    () => (selectedStates.length >= 2 ? generateLocationScenario(selectedStates, category) : null),
+    () => (selectedStates.length >= 1 ? generateLocationScenario(selectedStates, category) : null),
     [selectedStates, category]
   );
 
@@ -197,7 +197,7 @@ export function BudgetAllocator() {
       </div>
 
       {/* Category Selector */}
-      {selectedStates.length >= 2 && (
+      {selectedStates.length >= 1 && (
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
           <h3 className="font-display font-semibold text-foreground text-center">Choose Allocation Category</h3>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 max-w-2xl mx-auto">

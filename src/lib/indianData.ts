@@ -337,7 +337,12 @@ export function generateLocationScenario(
     .map((id) => INDIAN_STATES.find((s) => s.id === id))
     .filter(Boolean) as StateData[];
 
-  if (states.length < 2) return null;
+  const categoryLabels = {
+    cleanliness: "Swachh Bharat",
+    education: "Samagra Shiksha",
+    health: "Ayushman Bharat",
+    overall: "Composite Index",
+  };
 
   function getStateValue(state: StateData): number {
     switch (category) {
@@ -347,6 +352,24 @@ export function generateLocationScenario(
       case "overall":
         return (state.cleanlinessScore * 0.3 + state.literacyRate * 0.35 + state.healthIndex * 0.35) * state.population * 0.1;
     }
+  }
+
+  if (states.length < 1) return null;
+
+  // Single state: return simple scenario with just that state
+  if (states.length === 1) {
+    const state = states[0];
+    const value = getStateValue(state);
+    return {
+      id: `location-${category}`,
+      name: `${categoryLabels[category]} — ${state.name}`,
+      description: `Allocation breakdown for ${state.name} under ${categoryLabels[category]} programme.`,
+      icon: category === "cleanliness" ? "C" : category === "education" ? "E" : category === "health" ? "H" : "A",
+      totalResource: Math.round(value),
+      resourceUnit: "₹" as const,
+      players: [{ id: state.id, name: state.name, color: COLORS[0] }],
+      coalitionValues: [{ coalition: [state.id], value: Math.round(value) }],
+    };
   }
 
   function getCoalitionSynergy(coalition: StateData[]): number {
@@ -374,13 +397,6 @@ export function generateLocationScenario(
 
   const allCoalitions = getAllSubsets(states);
   const totalValue = getCoalitionSynergy(states);
-
-  const categoryLabels = {
-    cleanliness: "Swachh Bharat",
-    education: "Samagra Shiksha",
-    health: "Ayushman Bharat",
-    overall: "Composite Index",
-  };
 
   return {
     id: `location-${category}`,
