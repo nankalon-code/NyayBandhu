@@ -45,11 +45,12 @@ export function FairnessComparisonView({ comparisons, resourceUnit }: FairnessCo
       className="space-y-8"
     >
       <div className="text-center">
-        <h2 className="font-display text-2xl font-bold text-foreground mb-1">
+        <h2 className="font-display text-2xl font-bold text-foreground mb-1 flex items-center justify-center gap-2">
           Fairness Comparison
+          <GlossaryTooltip id="fairness-axioms" />
         </h2>
         <p className="text-muted-foreground text-sm">
-          Why Shapley Values outperform naive methods
+          Why Shapley Values outperform naive methods — each bar shows what a state would receive under different approaches
         </p>
       </div>
 
